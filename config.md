@@ -5,19 +5,19 @@
 
 #### nginx, fpm repo
 
-nano /etc/apt/sources.list
+`nano /etc/apt/sources.list`
 
     deb http://packages.dotdeb.org stable all
 	deb http://packages.dotdeb.org squeeze-php54 all
 	deb http://nginx.org/packages/debian/ sqeeze nginx
 
-wget http://www.dotdeb.org/dotdeb.gpg
+`wget http://www.dotdeb.org/dotdeb.gpg`
 
-cat dotdeb.gpg | sudo apt-key add -
+`cat dotdeb.gpg | sudo apt-key add -`
 
-rm dotdeb.gpg
+`rm dotdeb.gpg`
 
-apt-get update
+`apt-get update`
 
 ### NGINX
 ----------
@@ -26,7 +26,7 @@ nginx [engine x] is an HTTP and reverse proxy server, as well as a mail proxy se
 
 #### nginx install
 
-aptitude install nginx
+`aptitude install nginx`
 
 #### gzip tune
 
@@ -41,17 +41,17 @@ aptitude install nginx
 
 #### virtual host
 
-cd /etc/nginx/sites-available
+`cd /etc/nginx/sites-available`
 
-cp default www
+`cp default www`
 
-cd /etc/nginx/sites-enabled
+`cd /etc/nginx/sites-enabled`
 
-rm default
+`rm default`
 
-ln -s /etc/nginx/sites-available/www .
+`ln -s /etc/nginx/sites-available/www .`
 
-nano /etc/nginx/sites-available/www
+`nano /etc/nginx/sites-available/www`
 
     try_files $uri $uri/ =404;
 
@@ -70,17 +70,17 @@ nano /etc/nginx/sites-available/www
 
 #### install
 
-aptitude install php5-fpm php5-suhosin php5-gd php-apc php5-mcrypt php5-cli php5-curl php5-xdebug memcached php5-memcache
+`aptitude install php5-fpm php5-suhosin php5-gd php-apc php5-mcrypt php5-cli php5-curl php5-xdebug memcached php5-memcache`
 
 #### apc
 
-nano /etc/php5/conf.d/apc.ini
+`nano /etc/php5/conf.d/apc.ini`
 
     apc.shm_size = 128
 
 #### php.ini
 
-nano /etc/php5/fpm/php.ini
+`nano /etc/php5/fpm/php.ini`
 
     session.save_handler = memcache
 	session.save_path = unix:/tmp/memcached.sock
@@ -89,7 +89,7 @@ nano /etc/php5/fpm/php.ini
 
 #### www conf
 
-nano /etc/php5/fpm/pool.d/www.conf
+`nano /etc/php5/fpm/pool.d/www.conf`
 
     listen = /var/run/php5-fpm.soc
 	listen.owner = www-data
@@ -97,7 +97,7 @@ nano /etc/php5/fpm/pool.d/www.conf
 
 #### memcached
 
-nano /etc/memcached.conf
+`nano /etc/memcached.conf`
 
 	# -p 11211
 	# -l 127.0.0.1
@@ -108,21 +108,21 @@ nano /etc/memcached.conf
 
 #### PHP socket
 
-cd /etc/nginx/conf.d/
+`cd /etc/nginx/conf.d/`
 
-nano php-sock.conf
+`nano php-sock.conf`
 
 	upstream php5-fpm-sock {
     		server unix:/var/run/php5-fpm.soc;
 	}
 
-nano /etc/nginx/fastcgi_params
+`nano /etc/nginx/fastcgi_params`
 
 	fastcgi_buffer_size 128k;
 	fastcgi_buffers 4 256k;
 	fastcgi_busy_buffers_size 256k;
 
-nano /etc/nginx/sites-available/www
+`nano /etc/nginx/sites-available/www`
 
 	location ~ \.php$ {
 		try_files $uri =404;
@@ -139,11 +139,11 @@ MariaDB is a fully MySQL compatible successor of the original MySQL database ser
 
 #### gpg key
 
-apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
+`apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db`
 
 #### repositories
 
-nano /etc/apt/sources.list
+`nano /etc/apt/sources.list`
 
 	# MariaDB 10.0 repository list - created 2013-05-02 09:19 UTC
 	# http://mariadb.org/mariadb/repositories/
@@ -152,29 +152,30 @@ nano /etc/apt/sources.list
 
 #### install
 
-aptitude update
+`aptitude update`
 
-aptitude install mariadb-server php5-mysql
+`aptitude install mariadb-server php5-mysql`
 
 #### settings
 
-nano /etc/mysql/my.cnf
+`nano /etc/mysql/my.cnf`
 
-    Under "basic settings": skip-networking
+    Under "basic settings":
+        skip-networking
     
-service mysql restart
+`service mysql restart`
 
 #### FPM settings
 
-nano /etc/php5/fpm/php.ini
+`nano /etc/php5/fpm/php.ini`
 
     Locate "mysql.default_socket", set to:
 	    /var/run/mysqld/mysqld.sock
 
-service php5-fpm restart
+`service php5-fpm restart`
 
 #### security-ish
 
-mysql -u root -p
+`mysql -u root -p`
 
     rename user root@localhost to USERNAME@localhost;
