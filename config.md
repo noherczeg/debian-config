@@ -1,8 +1,9 @@
 # Web server setup configuration
 
-## APT
+### APT
+----------
 
-### nginx, fpm repo
+#### nginx, fpm repo
 
 nano /etc/apt/sources.list
 
@@ -18,15 +19,16 @@ rm dotdeb.gpg
 
 apt-get update
 
-## NGINX
+### NGINX
+----------
 
 nginx [engine x] is an HTTP and reverse proxy server, as well as a mail proxy server
 
-### nginx install
+#### nginx install
 
 aptitude install nginx
 
-### gzip tune
+#### gzip tune
 
     gzip_min_length 1100;
     gzip_vary on;
@@ -37,7 +39,7 @@ aptitude install nginx
         image/svg+xml application/x-font-ttf font/opentype
         application/vnd.ms-fontobject;
 
-### virtual host
+#### virtual host
 
 cd /etc/nginx/sites-available
 
@@ -53,7 +55,7 @@ nano /etc/nginx/sites-available/www
 
     try_files $uri $uri/ =404;
 
-### nginx.conf
+#### nginx.conf
 
     server_tokens off;
     
@@ -63,19 +65,20 @@ nano /etc/nginx/sites-available/www
     keepalive_timeout     10 10;
     send_timeout          10;
 
-## FPM & ETC
+### FPM & ETC
+----------
 
-### install
+#### install
 
 aptitude install php5-fpm php5-suhosin php5-gd php-apc php5-mcrypt php5-cli php5-curl php5-xdebug memcached php5-memcache
 
-### apc
+#### apc
 
 nano /etc/php5/conf.d/apc.ini
 
     apc.shm_size = 128
 
-### php.ini
+#### php.ini
 
 nano /etc/php5/fpm/php.ini
 
@@ -84,7 +87,7 @@ nano /etc/php5/fpm/php.ini
 	html_errors = On
 	short_open_tag = On
 
-### www conf
+#### www conf
 
 nano /etc/php5/fpm/pool.d/www.conf
 
@@ -92,7 +95,7 @@ nano /etc/php5/fpm/pool.d/www.conf
 	listen.owner = www-data
 	listen.group = www-data
 
-### memcached
+#### memcached
 
 nano /etc/memcached.conf
 
@@ -103,7 +106,7 @@ nano /etc/memcached.conf
 	-s /tmp/memcached.sock
 	-a 666
 
-### PHP socket
+#### PHP socket
 
 cd /etc/nginx/conf.d/
 
@@ -129,15 +132,16 @@ nano /etc/nginx/sites-available/www
 		fastcgi_intercept_errors on;
 	}
 
-## MariaDB
+### MariaDB
+----------
 
 MariaDB is a fully MySQL compatible successor of the original MySQL database server. It's more optimised, and has more features then the original. It's being developed by the initial core team.
 
-### gpg key
+#### gpg key
 
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
 
-### repositories
+#### repositories
 
 nano /etc/apt/sources.list
 
@@ -146,13 +150,13 @@ nano /etc/apt/sources.list
 	deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/debian squeeze main
 	deb-src http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/debian squeeze main
 
-### install
+#### install
 
 aptitude update
 
 aptitude install mariadb-server php5-mysql
 
-### settings
+#### settings
 
 nano /etc/mysql/my.cnf
 
@@ -160,7 +164,7 @@ nano /etc/mysql/my.cnf
     
 service mysql restart
 
-### FPM settings
+#### FPM settings
 
 nano /etc/php5/fpm/php.ini
 
@@ -169,7 +173,7 @@ nano /etc/php5/fpm/php.ini
 
 service php5-fpm restart
 
-### security-ish
+#### security-ish
 
 mysql -u root -p
 
