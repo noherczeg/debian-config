@@ -1,5 +1,4 @@
 # Web server setup configuration
-----------
 
 ## APT
 
@@ -40,12 +39,15 @@ aptitude install nginx
 
 ### virtual host
 
-    cd /etc/nginx/sites-available
-    cp default www
-    cd /etc/nginx/sites-enabled
-    rm default
-    ln -s /etc/nginx/sites-available/www .
+cd /etc/nginx/sites-available
 
+cp default www
+
+cd /etc/nginx/sites-enabled
+
+rm default
+
+ln -s /etc/nginx/sites-available/www .
 
 nano /etc/nginx/sites-available/www
 
@@ -147,6 +149,7 @@ nano /etc/apt/sources.list
 ### install
 
 aptitude update
+
 aptitude install mariadb-server php5-mysql
 
 ### settings
